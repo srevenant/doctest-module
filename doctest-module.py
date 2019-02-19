@@ -12,6 +12,7 @@ import sys
 import doctest
 import importlib
 import re
+import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
