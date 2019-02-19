@@ -14,15 +14,15 @@ import importlib
 import re
 import argparse
 
-if __name__ == '__main__':
+def main(): # pylint: disable=missing-docstring
     parser = argparse.ArgumentParser()
     parser.add_argument("folder", help="folder that is base module to search from")
     args = parser.parse_args()
 
-    sys.path.append("src")
+    # may not be required
     importlib.invalidate_caches()
 
-    for root, dir, files in os.walk(args.folder):
+    for root, _, files in os.walk(args.folder):
         for file in files:
             if file[-3:] != ".py":
                 continue
@@ -32,6 +32,9 @@ if __name__ == '__main__':
             modname = re.sub(os.path.sep, ".", modname)
             print("===================================== " + modname)
             module = importlib.import_module(modname)
-            (failed, total) = doctest.testmod(module, verbose=True)
+            (failed, _total) = doctest.testmod(module, verbose=True)
             if failed:
                 sys.exit(1)
+
+if __name__ == '__main__':
+    main()
